@@ -3,7 +3,8 @@
 	"name": "MoodleTenant",
 	"description": "",
 	"order": [
-		"2fccb2ad-aa74-2e68-fc4a-7ec92be6b969"
+		"2fccb2ad-aa74-2e68-fc4a-7ec92be6b969",
+		"bff88fb0-66a3-7180-f91a-707183725a58"
 	],
 	"folders": [],
 	"folders_order": [],
@@ -30,10 +31,39 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"Status code is 202\"] = responseCode.code === 202;\ntests[\"stackId exists\"] = jsonData.value === \"somevalue\"",
+			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1504980859977,
+			"time": 1504991339838,
+			"name": "Cold Start",
+			"description": "initial test",
+			"collectionId": "e85fd743-c0e8-9539-6a18-8691d365a671",
+			"responses": [],
+			"rawModeData": "{\n  \"value\": \"somevalue\"\n}"
+		},
+		{
+			"id": "bff88fb0-66a3-7180-f91a-707183725a58",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://api.vssdevelopment.com/dev/moodle/tenants",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"Status code is 202\"] = responseCode.code === 202;\ntests[\"value exists exists\"] = jsonData.value === \"somevalue\"",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1504991354131,
 			"name": "POST Client 1",
 			"description": "initial test",
 			"collectionId": "e85fd743-c0e8-9539-6a18-8691d365a671",
