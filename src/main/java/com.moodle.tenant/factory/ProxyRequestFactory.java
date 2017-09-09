@@ -1,7 +1,7 @@
 package com.moodle.tenant.factory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moodle.tenant.model.Request;
+import com.moodle.tenant.model.MoodleTenantRequest;
 
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class ProxyRequestFactory {
         this.objectMapper = objectMapper;
     }
 
-    public Request getBody(String content) throws IOException {
-        return objectMapper.readValue(content, Request.class);
+    public MoodleTenantRequest getBody(String content) throws IOException {
+        return objectMapper.readValue(content, MoodleTenantRequest.class);
     }
 }
