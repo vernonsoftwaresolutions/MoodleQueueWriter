@@ -17,6 +17,10 @@ public class PostMoodleTenantHandler implements RequestHandler<Request, ProxyRes
 
     private ProxyResponseFactory factory;
 
+    public PostMoodleTenantHandler() {
+        this.factory = new ProxyResponseFactory();
+    }
+
     @Override
     public ProxyResponse handleRequest(Request request, Context context) {
         log.info("Received request "+ request);
