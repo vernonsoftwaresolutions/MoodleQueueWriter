@@ -1,10 +1,13 @@
 package com.moodle.tenant.factory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moodle.tenant.lambda.ErrorPayload;
+import com.moodle.tenant.lambda.ProxyRequest;
 import com.moodle.tenant.lambda.ProxyResponse;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -12,9 +15,9 @@ import java.util.Map;
  */
 public class ProxyResponseFactory {
     private ObjectMapper objectMapper;
-    //todo-clean up for efficiency
-    public ProxyResponseFactory(){
-        objectMapper = new ObjectMapper();
+
+    public ProxyResponseFactory(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
     /**

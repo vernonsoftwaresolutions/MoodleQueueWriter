@@ -4,6 +4,7 @@ package com.moodle.tenant.model;
  * Created by andrewlarsen on 9/9/17.
  */
 public class Request {
+
     private String value;
 
     public String getValue() {

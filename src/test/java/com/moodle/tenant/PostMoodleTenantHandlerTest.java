@@ -3,6 +3,7 @@ package com.moodle.tenant;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.moodle.tenant.lambda.ProxyRequest;
 import com.moodle.tenant.model.Request;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -21,9 +22,11 @@ public class PostMoodleTenantHandlerTest {
 
     @Test
     public void testHandler() throws JsonProcessingException {
+        ProxyRequest proxyRequest = new ProxyRequest();
         Request request = new Request();
         request.setValue("VALUE");
-        assertThat(handler.handleRequest(request, context).getBody(),
+        proxyRequest.setBody(new ObjectMapper().writeValueAsString(request));
+        assertThat(handler.handleRequest(proxyRequest, context).getBody(),
                 is(new ObjectMapper().writeValueAsString(request)));
     }
 
