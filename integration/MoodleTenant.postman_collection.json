@@ -1,0 +1,44 @@
+{
+	"id": "e85fd743-c0e8-9539-6a18-8691d365a671",
+	"name": "MoodleTenant",
+	"description": "",
+	"order": [
+		"2fccb2ad-aa74-2e68-fc4a-7ec92be6b969"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1503862093752,
+	"owner": "837563",
+	"public": false,
+	"requests": [
+		{
+			"id": "2fccb2ad-aa74-2e68-fc4a-7ec92be6b969",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://api.vssdevelopment.com/dev/moodle/tenants",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"Status code is 202\"] = responseCode.code === 202;\ntests[\"stackId exists\"] = jsonData.value === \"somevalue\"",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1504980859977,
+			"name": "POST Client 1",
+			"description": "initial test",
+			"collectionId": "e85fd743-c0e8-9539-6a18-8691d365a671",
+			"responses": [],
+			"rawModeData": "{\n  \"value\": \"somevalue\"\n}"
+		}
+	]
+}
