@@ -40,4 +40,13 @@ public class ProxyResponse {
     public void setBody(String body) {
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "ProxyResponse{" +
+                "statusCode=" + statusCode +
+                ", headers=" + headers +
+                ", body='" + body + '\'' +
+                '}';
+    }
 }

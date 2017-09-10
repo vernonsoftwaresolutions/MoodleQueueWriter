@@ -47,19 +47,22 @@ public class PostMoodleTenantHandler implements RequestHandler<ProxyRequest, Pro
     @Override
     public ProxyResponse handleRequest(ProxyRequest proxyRequest, Context context) {
         MoodleTenantRequest request = null;
+        log.info("Received request " + proxyRequest);
+
         try {
             request = requestFactory.getBody(proxyRequest.getBody());
 
-            log.info("Received request " + request);
-
+            log.info("created request " +  request);
             SendMessageResult result = sqsClient.sendMessage(request);
 
+            log.info("SQS response " + result);
 
             SQSResponse response = new SQSResponse();
 
             response.setMessageId(result.getMessageId());
 
             ProxyResponse proxyResponse = factory.createResponse(response, HttpStatus.SC_ACCEPTED, null);
+            log.info("About to return proxy response  " + proxyResponse );
 
             return proxyResponse;
         }

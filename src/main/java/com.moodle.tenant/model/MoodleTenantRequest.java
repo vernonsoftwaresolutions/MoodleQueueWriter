@@ -49,4 +49,15 @@ public class MoodleTenantRequest {
     public void setPriority(Integer priority) {
         this.priority = priority;
     }
+
+    @Override
+    public String toString() {
+        return "MoodleTenantRequest{" +
+                "stackName='" + stackName + '\'' +
+                ", clientName='" + clientName + '\'' +
+                ", vpcId='" + vpcId + '\'' +
+                ", hostedZoneName='" + hostedZoneName + '\'' +
+                ", priority=" + priority +
+                '}';
+    }
 }
