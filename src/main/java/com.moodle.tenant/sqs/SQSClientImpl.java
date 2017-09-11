@@ -19,6 +19,7 @@ public class SQSClientImpl implements SQSClient {
     private AmazonSQS sqs;
     private String queueUrl;
     private ObjectMapper objectMapper;
+
     public SQSClientImpl(ObjectMapper objectMapper, String queueName) {
         this.objectMapper = objectMapper;
         sqs = AmazonSQSClientBuilder.defaultClient();
