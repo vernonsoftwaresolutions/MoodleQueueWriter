@@ -25,7 +25,7 @@ import java.io.IOException;
 public class PostMoodleTenantHandler implements RequestHandler<ProxyRequest, ProxyResponse> {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     //todo- refactor app to not need to hardcode this value.  Should use naming convention instead
-    private String queueName = "awseb-e-xvckp37bew-stack-AWSEBWorkerQueue-UKMN5GQB70WK";
+    private String queueName = "awseb-e-k7kmmvvnc7-stack-AWSEBWorkerQueue-3D74H0CEYW90";
     private ProxyResponseFactory factory;
     private ProxyRequestFactory requestFactory;
     private SQSClient sqsClient;
