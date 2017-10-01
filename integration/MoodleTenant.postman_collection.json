@@ -30,15 +30,15 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"Status code is 202\"] = responseCode.code === 202;\ntests[\"messageId exists exists\"] = jsonData.value !== null && jsonData.messageId !== undefined",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"Status code is 202\"] = responseCode.code === 202;\ntests[\"messageId exists exists\"] = jsonData.value !== null && jsonData.messageId !== undefined\n\ntests[\"Access-Control-Allow-Origin is present\"] = postman.getResponseHeader(\"Access-Control-Allow-Origin\");",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1505001636317,
+			"time": 1506879403696,
 			"name": "POST Client 1",
 			"description": "initial test",
 			"collectionId": "e85fd743-c0e8-9539-6a18-8691d365a671",
 			"responses": [],
-			"rawModeData": "{\n\t\"stackName\": \"moodle-ecs-single\",\n\t\"clientName\": \"{{randomClient}}\",\n\t\"vpcId\": \"vpc-c7aa77be\",\n\t\"hostedZoneName\": \"vssdevelopment.com\",\n\t\"priority\": \"{{randomPriority}}\"\n}"
+			"rawModeData": "{\n\t\"stackName\": \"moodle-ecs-single\",\n\t\"clientName\": \"CoolCo{{randomClient}}\",\n\t\"vpcId\": \"vpc-c7aa77be\",\n\t\"hostedZoneName\": \"vssdevelopment.com\",\n\t\"priority\": \"{{randomPriority}}\"\n}"
 		}
 	]
 }
