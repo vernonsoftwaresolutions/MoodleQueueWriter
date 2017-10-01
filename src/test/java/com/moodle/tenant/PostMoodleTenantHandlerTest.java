@@ -20,9 +20,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -49,6 +52,7 @@ public class PostMoodleTenantHandlerTest {
     private ProxyRequest proxyRequest;
     private SendMessageResult result;
     private SQSResponse sqsResponse;
+    private Map<String, String> cors;
 
     @Before
     public void setup() throws JsonProcessingException {
@@ -72,6 +76,9 @@ public class PostMoodleTenantHandlerTest {
         response.setBody(objectMapper.writeValueAsString(sqsResponse));
 
         handler = new PostMoodleTenantHandler("QUEUE",responseFactory, requestFactory,client);
+        cors = new HashMap<String, String>(){{
+            put("Access-Control-Allow-Origin", "*");
+        }};
     }
     @Test
     public void testHandler() throws IOException {
@@ -84,14 +91,53 @@ public class PostMoodleTenantHandlerTest {
 
         response.setStatusCode(200);
         response.setHeaders(null);
-        given(responseFactory.createResponse(anyObject(), eq(HttpStatus.SC_ACCEPTED), eq(null))).willReturn(response);
+        given(responseFactory.createResponse(anyObject(), eq(HttpStatus.SC_ACCEPTED), eq(cors))).willReturn(response);
 
         ProxyResponse expected = handler.handleRequest(proxyRequest, context);
 
         assertThat(objectMapper.writeValueAsString(expected), is(objectMapper.writeValueAsString(response)));
     }
     @Test
+    public void testHandlerNoCors() throws IOException {
+
+        proxyRequest.setBody(new ObjectMapper().writeValueAsString(request));
+
+        given(requestFactory.getBody(anyString())).willReturn(new MoodleTenantRequest());
+
+        given(client.sendMessage(anyObject())).willReturn(result);
+
+        response.setStatusCode(200);
+        response.setHeaders(null);
+        given(responseFactory.createResponse(anyObject(), eq(HttpStatus.SC_ACCEPTED), eq(null))).willReturn(response);
+
+        ProxyResponse expected = handler.handleRequest(proxyRequest, context);
+        assertNull(expected);
+
+    }
+    @Test
     public void testHandlerUnsupportedOperationException() throws IOException {
+
+        proxyRequest.setBody(new ObjectMapper().writeValueAsString(request));
+
+        given(requestFactory.getBody(anyString())).willReturn(new MoodleTenantRequest());
+
+        given(client.sendMessage(anyObject())).willThrow(new UnsupportedOperationException());
+
+        ErrorPayload error = new ErrorPayload(500, "Error posting message");
+
+        response.setStatusCode(500);
+        response.setHeaders(null);
+        response.setBody(objectMapper.writeValueAsString(error));
+
+        given(responseFactory.createErrorResponse(500, 500,
+                "Error posting message", cors)).willReturn(response);
+
+        ProxyResponse expected = handler.handleRequest(proxyRequest, context);
+
+        assertThat(objectMapper.writeValueAsString(expected), is(objectMapper.writeValueAsString(response)));
+    }
+    @Test
+    public void testHandlerUnsupportedOperationExceptionNoCors() throws IOException {
 
         proxyRequest.setBody(new ObjectMapper().writeValueAsString(request));
 
@@ -110,7 +156,7 @@ public class PostMoodleTenantHandlerTest {
 
         ProxyResponse expected = handler.handleRequest(proxyRequest, context);
 
-        assertThat(objectMapper.writeValueAsString(expected), is(objectMapper.writeValueAsString(response)));
+        assertNull(expected);
     }
     @Test
     public void testHandlerInvalidMessageContentsException() throws IOException {
@@ -128,7 +174,7 @@ public class PostMoodleTenantHandlerTest {
         response.setBody(objectMapper.writeValueAsString(error));
 
         given(responseFactory.createErrorResponse(500, 500,
-                "Error posting message", null)).willReturn(response);
+                "Error posting message", cors)).willReturn(response);
 
         ProxyResponse expected = handler.handleRequest(proxyRequest, context);
 
@@ -146,7 +192,29 @@ public class PostMoodleTenantHandlerTest {
         ErrorPayload error = new ErrorPayload(500, "Error posting message");
 
         response.setStatusCode(500);
-        response.setHeaders(null);
+        response.setHeaders(cors);
+        response.setBody(objectMapper.writeValueAsString(error));
+
+        given(responseFactory.createErrorResponse(500, 500,
+                "Internal Server Error", cors)).willReturn(response);
+
+        ProxyResponse expected = handler.handleRequest(proxyRequest, context);
+
+        assertThat(objectMapper.writeValueAsString(expected), is(objectMapper.writeValueAsString(response)));
+    }
+    @Test
+    public void testHandlerIOExceptionNoCors() throws IOException {
+
+        proxyRequest.setBody("NOTJSON");
+
+        given(requestFactory.getBody(anyString())).willThrow(new IOException());
+
+        given(client.sendMessage(anyObject())).willThrow(new InvalidMessageContentsException("MESSAGE"));
+
+        ErrorPayload error = new ErrorPayload(500, "Error posting message");
+
+        response.setStatusCode(500);
+        response.setHeaders(cors);
         response.setBody(objectMapper.writeValueAsString(error));
 
         given(responseFactory.createErrorResponse(500, 500,
@@ -154,6 +222,6 @@ public class PostMoodleTenantHandlerTest {
 
         ProxyResponse expected = handler.handleRequest(proxyRequest, context);
 
-        assertThat(objectMapper.writeValueAsString(expected), is(objectMapper.writeValueAsString(response)));
+        assertNull(expected);
     }
 }

@@ -18,6 +18,8 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by andrewlarsen on 8/24/17.
@@ -61,20 +63,30 @@ public class PostMoodleTenantHandler implements RequestHandler<ProxyRequest, Pro
 
             response.setMessageId(result.getMessageId());
 
-            ProxyResponse proxyResponse = factory.createResponse(response, HttpStatus.SC_ACCEPTED, null);
+            ProxyResponse proxyResponse = factory.createResponse(response, HttpStatus.SC_ACCEPTED, createCorsHeaders());
             log.info("About to return proxy response  " + proxyResponse );
 
             return proxyResponse;
         }
         catch (UnsupportedOperationException | InvalidMessageContentsException e){
             log.error("Error posting message to sqs queue");
-            return factory.createErrorResponse(500, 500, "Error posting message", null);
+            return factory.createErrorResponse(500, 500, "Error posting message", createCorsHeaders());
         }
         catch (IOException e) {
             log.error("Error processing input request");
-            return factory.createErrorResponse(500, 500, "Internal Server Error", null);
+            return factory.createErrorResponse(500, 500, "Internal Server Error", createCorsHeaders());
         }
 
+    }
+
+    /**
+     * Helper method to create cors headers for Browsers
+     * @return
+     */
+    private Map<String, String> createCorsHeaders(){
+        Map headers = new HashMap<String, String>();
+        headers.put( "Access-Control-Allow-Origin", "*");
+        return headers;
     }
 
 }
