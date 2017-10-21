@@ -27,7 +27,7 @@ import java.util.Map;
 public class PostMoodleTenantHandler implements RequestHandler<ProxyRequest, ProxyResponse> {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     //todo- refactor app to not need to hardcode this value.  Should use naming convention instead
-    private String queueName = "awseb-e-k7kmmvvnc7-stack-AWSEBWorkerQueue-3D74H0CEYW90";
+    private String queueName = "awseb-e-422piwbzkd-stack-AWSEBWorkerQueue-RYEQU7Y64XZO";
     private ProxyResponseFactory factory;
     private ProxyRequestFactory requestFactory;
     private SQSClient sqsClient;
@@ -69,11 +69,11 @@ public class PostMoodleTenantHandler implements RequestHandler<ProxyRequest, Pro
             return proxyResponse;
         }
         catch (UnsupportedOperationException | InvalidMessageContentsException e){
-            log.error("Error posting message to sqs queue");
+            log.error("Error posting message to sqs queue", e);
             return factory.createErrorResponse(500, 500, "Error posting message", createCorsHeaders());
         }
         catch (IOException e) {
-            log.error("Error processing input request");
+            log.error("Error processing input request", e);
             return factory.createErrorResponse(500, 500, "Internal Server Error", createCorsHeaders());
         }
 
