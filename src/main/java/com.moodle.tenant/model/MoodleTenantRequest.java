@@ -4,6 +4,8 @@ package com.moodle.tenant.model;
  * Created by andrewlarsen on 9/9/17.
  */
 public class MoodleTenantRequest {
+
+    private String id;
     private String stackName;
     private String clientName;
     private String vpcId;
@@ -50,10 +52,19 @@ public class MoodleTenantRequest {
         this.priority = priority;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "MoodleTenantRequest{" +
-                "stackName='" + stackName + '\'' +
+                "id='" + id + '\'' +
+                ", stackName='" + stackName + '\'' +
                 ", clientName='" + clientName + '\'' +
                 ", vpcId='" + vpcId + '\'' +
                 ", hostedZoneName='" + hostedZoneName + '\'' +
