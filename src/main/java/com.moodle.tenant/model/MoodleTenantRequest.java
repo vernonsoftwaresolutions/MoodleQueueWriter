@@ -5,11 +5,34 @@ package com.moodle.tenant.model;
  */
 public class MoodleTenantRequest {
 
-    private String id;
+    /*
+          Id of the account that is creating the site
+       */
+    private String accountId;
+    /*
+        Id of the site that is to be generated
+     */
+    private String siteId;
+    /*
+        Name of the ECS Stack that will be used to create the sites
+     */
     private String stackName;
+    /*
+        Name of the sites that will be created.  This will end up being the stack name
+        of the moodle container instance
+     */
     private String clientName;
+    /*
+        Id of the VPC this will be deployed in
+     */
     private String vpcId;
+    /*
+        DNS of the sites
+     */
     private String hostedZoneName;
+    /*
+        Load Balancer Target Rule Priority
+     */
     private Integer priority;
 
     public String getStackName() {
@@ -52,18 +75,28 @@ public class MoodleTenantRequest {
         this.priority = priority;
     }
 
-    public String getId() {
-        return id;
+
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(String siteId) {
+        this.siteId = siteId;
     }
 
     @Override
     public String toString() {
         return "MoodleTenantRequest{" +
-                "id='" + id + '\'' +
+                "accountId='" + accountId + '\'' +
+                ", siteId='" + siteId + '\'' +
                 ", stackName='" + stackName + '\'' +
                 ", clientName='" + clientName + '\'' +
                 ", vpcId='" + vpcId + '\'' +
