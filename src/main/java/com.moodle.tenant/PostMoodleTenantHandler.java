@@ -26,7 +26,7 @@ import java.util.Map;
 public class PostMoodleTenantHandler implements RequestHandler<ProxyRequest, ProxyResponse> {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     //todo- refactor app to not need to hardcode this value.  Should use naming convention instead
-    private String queueName = "awseb-e-dbp3iqx7fe-stack-AWSEBWorkerQueue-9XISQTRCGL0N";
+    private String queueName = "awseb-e-fvwsuikbkb-stack-AWSEBWorkerQueue-WK66QI97ZAI9";
     private ProxyResponseFactory factory;
     private ProxyRequestFactory requestFactory;
     private SQSClient sqsClient;
